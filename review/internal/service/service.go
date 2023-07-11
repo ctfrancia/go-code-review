@@ -40,7 +40,7 @@ func (s Service) ApplyCoupon(basket Basket, code string) (b *Basket, e error) {
 	return nil, fmt.Errorf("Tried to apply discount to negative value")
 }
 
-func (s Service) CreateCoupon(discount int, code string, minBasketValue int) any {
+func (s Service) CreateCoupon(discount int, code string, minBasketValue int) interface{} {
 	coupon := Coupon{
 		Discount:       discount,
 		Code:           code,
