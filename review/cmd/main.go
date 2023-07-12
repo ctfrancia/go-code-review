@@ -1,12 +1,13 @@
 package main
 
 import (
-	"coupon_service/internal/api"
-	"coupon_service/internal/config"
-	"coupon_service/internal/repository/memdb"
-	"coupon_service/internal/service"
 	"fmt"
 	"time"
+
+	"github.com/ctfrancia/go-code-review/review/cmd/api"
+	"github.com/ctfrancia/go-code-review/review/internal/config"
+	"github.com/ctfrancia/go-code-review/review/internal/repository/memdb"
+	"github.com/ctfrancia/go-code-review/review/internal/service"
 )
 
 var (
