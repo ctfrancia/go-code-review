@@ -2,26 +2,30 @@ package api
 
 import (
 	"context"
-	"coupon_service/internal/service/entity"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
 
+	"github.com/ctfrancia/go-code-review/review/internal/service/entity"
+
 	"github.com/gin-gonic/gin"
 )
 
+// Service is the interface that provides coupon methods.
 type Service interface {
 	ApplyCoupon(entity.Basket, string) (*entity.Basket, error)
-	CreateCoupon(int, string, int) any
+	CreateCoupon(int, string, int) interface{} // FIXME: do correct type should return error
 	GetCoupons([]string) ([]entity.Coupon, error)
 }
 
+// Config is the configuration for api.
 type Config struct {
 	Host string
 	Port int
 }
 
+// API provides coupon api.
 type API struct {
 	srv *http.Server
 	MUX *gin.Engine
@@ -29,7 +33,9 @@ type API struct {
 	CFG Config
 }
 
-func New(T Service)(cfg Config, svc interface{}) API {
+// New creates new api instance.
+func New(cfg Config, svc Service) API {
+	// func (s Service) New(cfg Config, svc Service) API {
 	gin.SetMode(gin.ReleaseMode)
 	r := new(gin.Engine)
 	r = gin.New()
@@ -43,7 +49,6 @@ func New(T Service)(cfg Config, svc interface{}) API {
 }
 
 func (a API) withServer() API {
-
 	ch := make(chan API)
 	go func() {
 		a.srv = &http.Server{
@@ -64,12 +69,14 @@ func (a API) withRoutes() API {
 	return a
 }
 
+// Start runs http server.
 func (a API) Start() {
 	if err := a.srv.ListenAndServe(); err != nil {
 		log.Fatal(err)
 	}
 }
 
+// Close closes http server.
 func (a API) Close() {
 	<-time.After(5 * time.Second)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

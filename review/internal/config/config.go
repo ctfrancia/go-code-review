@@ -1,8 +1,9 @@
 package config
 
 import (
-	"coupon_service/api"
 	"log"
+
+	"github.com/ctfrancia/go-code-review/review/cmd/api"
 
 	"github.com/brumhard/alligotor"
 )

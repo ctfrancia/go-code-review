@@ -1,8 +1,9 @@
 package api
 
 import (
-	. "coupon_service/internal/api/entity"
 	"net/http"
+
+	. "github.com/ctfrancia/go-code-review/cmd/api/entity"
 
 	"github.com/gin-gonic/gin"
 )
