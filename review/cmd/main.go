@@ -1,7 +1,7 @@
 package main
 
 import (
-	"coupon_service/api"
+	"coupon_service/internal/api"
 	"coupon_service/internal/config"
 	"coupon_service/internal/repository/memdb"
 	"coupon_service/internal/service"

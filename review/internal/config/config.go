@@ -1,7 +1,7 @@
 package config
 
 import (
-	"coupon_service/internal/api"
+	"coupon_service/api"
 	"log"
 
 	"github.com/brumhard/alligotor"
@@ -12,7 +12,9 @@ type Config struct {
 }
 
 func New() Config {
-	cfg := Config{}
+	cfg := Config{
+		API: api.Config{},
+	}
 	if err := alligotor.Get(&cfg); err != nil {
 		log.Fatal(err)
 	}
