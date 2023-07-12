@@ -1,10 +1,11 @@
 package service
 
 import (
-	"coupon_service/internal/repository/memdb"
-	"coupon_service/internal/service/entity"
 	"reflect"
 	"testing"
+
+	"github.com/ctfrancia/go-code-review/review/internal/repository/memdb"
+	"github.com/ctfrancia/go-code-review/review/internal/service/entity"
 )
 
 func TestNew(t *testing.T) {
@@ -72,7 +73,7 @@ func TestService_CreateCoupon(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   any
+		want   interface{}
 	}{
 		{"Apply 10%", fields{memdb.New()}, args{10, "Superdiscount", 55}, nil},
 	}

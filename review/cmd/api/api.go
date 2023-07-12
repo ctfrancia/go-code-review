@@ -35,8 +35,7 @@ type API struct {
 
 // New creates new api instance.
 func New(cfg Config, svc Service) API {
-	// func (s Service) New(cfg Config, svc Service) API {
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 	r := new(gin.Engine)
 	r = gin.New()
 	r.Use(gin.Recovery())

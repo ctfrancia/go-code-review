@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Apply is the endpoint for applying a coupon to a basket
 func (a *API) Apply(c *gin.Context) {
 	apiReq := ApplicationRequest{}
 	if err := c.ShouldBindJSON(&apiReq); err != nil {
@@ -21,6 +22,7 @@ func (a *API) Apply(c *gin.Context) {
 	c.JSON(http.StatusOK, basket)
 }
 
+// Create is the endpoint for creating a coupon
 func (a *API) Create(c *gin.Context) {
 	apiReq := Coupon{}
 	if err := c.ShouldBindJSON(&apiReq); err != nil {
@@ -33,6 +35,7 @@ func (a *API) Create(c *gin.Context) {
 	c.Status(http.StatusOK)
 }
 
+// Get is the endpoint for getting a coupon
 func (a *API) Get(c *gin.Context) {
 	apiReq := CouponRequest{}
 	if err := c.ShouldBindJSON(&apiReq); err != nil {

@@ -8,21 +8,25 @@ import (
 	"github.com/google/uuid"
 )
 
+// Repository is an interface that defines the methods that a repository must implement
 type Repository interface {
 	FindByCode(string) (*Coupon, error)
 	Save(Coupon) error
 }
 
+// Service is the struct that holds the repository
 type Service struct {
 	repo Repository
 }
 
+// New creates a new service instance
 func New(repo Repository) Service {
 	return Service{
 		repo: repo,
 	}
 }
 
+// ApplyCoupon applies a coupon to a basket
 func (s Service) ApplyCoupon(basket Basket, code string) (b *Basket, e error) {
 	b = &basket
 	coupon, err := s.repo.FindByCode(code)
@@ -41,6 +45,7 @@ func (s Service) ApplyCoupon(basket Basket, code string) (b *Basket, e error) {
 	return nil, fmt.Errorf("Tried to apply discount to negative value")
 }
 
+// CreateCoupon creates a new coupon
 func (s Service) CreateCoupon(discount int, code string, minBasketValue int) interface{} {
 	coupon := Coupon{
 		Discount:       discount,
@@ -55,6 +60,7 @@ func (s Service) CreateCoupon(discount int, code string, minBasketValue int) int
 	return nil
 }
 
+// GetCoupons gets coupons by codes
 func (s Service) GetCoupons(codes []string) ([]Coupon, error) {
 	coupons := make([]Coupon, 0, len(codes))
 	var e error = nil
