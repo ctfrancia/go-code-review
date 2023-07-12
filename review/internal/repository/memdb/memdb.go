@@ -1,8 +1,9 @@
 package memdb
 
 import (
-	"coupon_service/internal/service/entity"
 	"fmt"
+
+	"github.com/ctfrancia/go-code-review/review/internal/service/entity"
 )
 
 type Config struct{}

@@ -1,8 +1,9 @@
 package service
 
 import (
-	. "coupon_service/internal/service/entity"
 	"fmt"
+
+	. "github.com/ctfrancia/go-code-review/review/internal/service/entity"
 
 	"github.com/google/uuid"
 )

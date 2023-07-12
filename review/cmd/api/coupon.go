@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	. "github.com/ctfrancia/go-code-review/cmd/api/entity"
+	. "github.com/ctfrancia/go-code-review/review/cmd/api/entity"
 
 	"github.com/gin-gonic/gin"
 )
