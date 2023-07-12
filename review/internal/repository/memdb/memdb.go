@@ -6,21 +6,30 @@ import (
 	"github.com/ctfrancia/go-code-review/review/internal/service/entity"
 )
 
-type Config struct{}
+// Config is the configuration for memdb.
+type Config struct {
+	Host string
+	Port int
+}
 
 type repository interface {
 	FindByCode(string) (*entity.Coupon, error)
 	Save(entity.Coupon) error
 }
 
+// Repository is the struct that holds the repository
 type Repository struct {
 	entries map[string]entity.Coupon
 }
 
+// New creates a new repository instance
 func New() *Repository {
-	return &Repository{}
+	return &Repository{
+		entries: make(map[string]entity.Coupon),
+	}
 }
 
+// FindByCode finds a coupon by code
 func (r *Repository) FindByCode(code string) (*entity.Coupon, error) {
 	coupon, ok := r.entries[code]
 	if !ok {
@@ -29,6 +38,7 @@ func (r *Repository) FindByCode(code string) (*entity.Coupon, error) {
 	return &coupon, nil
 }
 
+// Save saves a coupon
 func (r *Repository) Save(coupon entity.Coupon) error {
 	r.entries[coupon.Code] = coupon
 	return nil

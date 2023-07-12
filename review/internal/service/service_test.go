@@ -42,7 +42,12 @@ func TestService_ApplyCoupon(t *testing.T) {
 		args    args
 		wantB   *entity.Basket
 		wantErr bool
-	}{}
+	}{
+		{"Apply 10%", fields{memdb.New()}, args{entity.Basket{Value: 100}, "Superdiscount"}, &entity.Basket{Value: 100, AppliedDiscount: 10, ApplicationSuccessful: true}, false},
+		// {"Apply 10% to 0", fields{memdb.New()}, args{entity.Basket{Value: 0}, "Superdiscount"}, &entity.Basket{Value: 0, AppliedDiscount: 0, ApplicationSuccessful: false}, false},
+		// {"Apply 10% to -1", fields{memdb.New()}, args{entity.Basket{Value: -1}, "Superdiscount"}, &entity.Basket{Value: -1, AppliedDiscount: 0, ApplicationSuccessful: false}, true},
+	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Service{
