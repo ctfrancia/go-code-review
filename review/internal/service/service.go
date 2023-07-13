@@ -49,7 +49,7 @@ func (s Service) ApplyCoupon(basket entity.Basket, code string) (b *entity.Baske
 }
 
 // CreateCoupon creates a new coupon
-func (s Service) CreateCoupon(discount int, code string, minBasketValue int) error {
+func (s Service) CreateCoupon(discount int, code string, minBasketValue int) (entity.Coupon, error) {
 	coupon := entity.Coupon{
 		Discount:       discount,
 		Code:           code,
@@ -58,9 +58,9 @@ func (s Service) CreateCoupon(discount int, code string, minBasketValue int) err
 	}
 
 	if err := s.repo.Save(coupon); err != nil {
-		return err
+		return entity.Coupon{}, err
 	}
-	return nil
+	return coupon, nil
 }
 
 // GetCoupons gets coupons by codes

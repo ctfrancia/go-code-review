@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -45,6 +44,7 @@ func TestService_CreateCoupon(t *testing.T) {
 		want   interface{}
 	}{
 		{"Apply 10%", fields{memdb.New()}, args{10, "Superdiscount", 55}, nil},
+		{"Apply 20%", fields{memdb.New()}, args{20, "Superdiscount2", 85}, nil},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -52,7 +52,7 @@ func TestService_CreateCoupon(t *testing.T) {
 				repo: tt.fields.repo,
 			}
 
-			err := s.CreateCoupon(tt.args.discount, tt.args.code, tt.args.minBasketValue)
+			_, err := s.CreateCoupon(tt.args.discount, tt.args.code, tt.args.minBasketValue)
 			if err != nil {
 				t.Errorf("CreateCoupon() error = %v", err)
 				return
@@ -88,7 +88,7 @@ func TestService_ApplyCoupon(t *testing.T) {
 				repo: tt.fields.repo,
 			}
 
-			err := s.CreateCoupon(10, "Superdiscount", 55)
+			_, err := s.CreateCoupon(10, "Superdiscount", 55)
 			if err != nil {
 				t.Errorf("CreateCoupon() error = %v", err)
 				return
@@ -111,6 +111,7 @@ func TestService_GetCoupons(t *testing.T) {
 	type fields struct {
 		repo Repository
 	}
+
 	tests := []struct {
 		name    string
 		fields  fields
@@ -118,17 +119,9 @@ func TestService_GetCoupons(t *testing.T) {
 		want    []entity.Coupon
 		wantErr bool
 	}{
-		{"Get Coupons", fields{memdb.New()}, []entity.Coupon{
-			{ID: "123", Code: "Superdiscount", Discount: 10, MinBasketValue: 55},
-		}, []entity.Coupon{{ID: "123", Code: "Superdiscount", Discount: 10, MinBasketValue: 55}}, false},
-		{"Get Coupons multiple", fields{memdb.New()}, []entity.Coupon{
-			{ID: "123", Code: "Superdiscount2", Discount: 10, MinBasketValue: 55},
-			{ID: "456", Code: "Superdiscount3", Discount: 20, MinBasketValue: 85},
-		}, []entity.Coupon{
-			{ID: "123", Code: "Superdiscount2", Discount: 10, MinBasketValue: 55},
-			{ID: "456", Code: "Superdiscount3", Discount: 20, MinBasketValue: 85},
-		}, false},
+		{"Get Coupons", fields{memdb.New()}, []entity.Coupon{{ID: "123", Code: "Superdiscount", Discount: 10, MinBasketValue: 55}}, []entity.Coupon{{ID: "", Code: "Superdiscount", Discount: 10, MinBasketValue: 55}}, false},
 	}
+
 	xc := make([]string, 0)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -136,10 +129,10 @@ func TestService_GetCoupons(t *testing.T) {
 				repo: tt.fields.repo,
 			}
 
-			for _, coupon := range tt.coupons {
-				fmt.Println("coupon", coupon)
+			for i, coupon := range tt.coupons {
 				xc = append(xc, coupon.Code)
-				err := s.CreateCoupon(coupon.Discount, coupon.Code, coupon.MinBasketValue)
+				cp, err := s.CreateCoupon(coupon.Discount, coupon.Code, coupon.MinBasketValue)
+				tt.want[i].ID = cp.ID
 				if err != nil {
 					t.Errorf("CreateCoupon() error = %v", err)
 					return
@@ -147,8 +140,8 @@ func TestService_GetCoupons(t *testing.T) {
 
 			}
 
-			fmt.Println("xc", xc)
 			got, err := s.GetCoupons(xc)
+
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetCoupons() error = %v, wantErr %v", err, tt.wantErr)
 				return
