@@ -29,7 +29,9 @@ func New(repo Repository) Service {
 // ApplyCoupon applies a coupon to a basket
 func (s Service) ApplyCoupon(basket Basket, code string) (b *Basket, e error) {
 	b = &basket
+	// fmt.Println("basket", b)
 	coupon, err := s.repo.FindByCode(code)
+	// fmt.Println("coupon", coupon)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +44,11 @@ func (s Service) ApplyCoupon(basket Basket, code string) (b *Basket, e error) {
 		return
 	}
 
-	return nil, fmt.Errorf("Tried to apply discount to negative value")
+	if b.Value < 0 {
+		return b, fmt.Errorf("Tried to apply discount to negative value")
+	}
+
+	return b, nil
 }
 
 // CreateCoupon creates a new coupon

@@ -1,9 +1,6 @@
 package entity
 
-import (
-	_ "github.com/gin-gonic/gin"
-)
-
+// Basket is a struct that represents a basket
 type Basket struct {
 	Value                 int
 	AppliedDiscount       int

@@ -43,3 +43,9 @@ func (r *Repository) Save(coupon entity.Coupon) error {
 	r.entries[coupon.Code] = coupon
 	return nil
 }
+
+// Close closes the database connection
+func (r *Repository) Close() error {
+	// immitate closing a database connection
+	return nil
+}
