@@ -1,4 +1,4 @@
-package entity
+package dto
 
 import "github.com/ctfrancia/go-code-review/review/internal/service/entity"
 

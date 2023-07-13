@@ -3,14 +3,14 @@ package api
 import (
 	"net/http"
 
-	. "github.com/ctfrancia/go-code-review/review/cmd/api/entity"
+	"github.com/ctfrancia/go-code-review/review/cmd/api/dto"
 
 	"github.com/gin-gonic/gin"
 )
 
 // Apply is the endpoint for applying a coupon to a basket
 func (a *API) Apply(c *gin.Context) {
-	apiReq := ApplicationRequest{}
+	apiReq := dto.ApplicationRequest{}
 	if err := c.ShouldBindJSON(&apiReq); err != nil {
 		return
 	}
@@ -24,7 +24,7 @@ func (a *API) Apply(c *gin.Context) {
 
 // Create is the endpoint for creating a coupon
 func (a *API) Create(c *gin.Context) {
-	apiReq := Coupon{}
+	apiReq := dto.Coupon{}
 	if err := c.ShouldBindJSON(&apiReq); err != nil {
 		return
 	}
@@ -37,7 +37,7 @@ func (a *API) Create(c *gin.Context) {
 
 // Get is the endpoint for getting a coupon
 func (a *API) Get(c *gin.Context) {
-	apiReq := CouponRequest{}
+	apiReq := dto.CouponRequest{}
 	if err := c.ShouldBindJSON(&apiReq); err != nil {
 		return
 	}

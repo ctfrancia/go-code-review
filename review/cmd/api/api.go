@@ -15,7 +15,7 @@ import (
 // Service is the interface that provides coupon methods.
 type Service interface {
 	ApplyCoupon(entity.Basket, string) (*entity.Basket, error)
-	CreateCoupon(int, string, int) interface{} // FIXME: do correct type
+	CreateCoupon(int, string, int) error
 	GetCoupons([]string) ([]entity.Coupon, error)
 }
 

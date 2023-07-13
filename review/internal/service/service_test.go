@@ -125,8 +125,8 @@ func TestService_GetCoupons(t *testing.T) {
 			{ID: "123", Code: "Superdiscount2", Discount: 10, MinBasketValue: 55},
 			{ID: "456", Code: "Superdiscount3", Discount: 20, MinBasketValue: 85},
 		}, []entity.Coupon{
-			{ID: "123", Code: "Superdiscount", Discount: 10, MinBasketValue: 55},
-			{ID: "456", Code: "Superdiscount2", Discount: 20, MinBasketValue: 85},
+			{ID: "123", Code: "Superdiscount2", Discount: 10, MinBasketValue: 55},
+			{ID: "456", Code: "Superdiscount3", Discount: 20, MinBasketValue: 85},
 		}, false},
 	}
 	xc := make([]string, 0)
@@ -147,6 +147,7 @@ func TestService_GetCoupons(t *testing.T) {
 
 			}
 
+			fmt.Println("xc", xc)
 			got, err := s.GetCoupons(xc)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetCoupons() error = %v, wantErr %v", err, tt.wantErr)

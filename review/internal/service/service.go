@@ -3,15 +3,14 @@ package service
 import (
 	"fmt"
 
-	. "github.com/ctfrancia/go-code-review/review/internal/service/entity"
-
+	"github.com/ctfrancia/go-code-review/review/internal/service/entity"
 	"github.com/google/uuid"
 )
 
 // Repository is an interface that defines the methods that a repository must implement
 type Repository interface {
-	FindByCode(string) (*Coupon, error)
-	Save(Coupon) error
+	FindByCode(string) (*entity.Coupon, error)
+	Save(entity.Coupon) error
 }
 
 // Service is the struct that holds the repository
@@ -27,11 +26,9 @@ func New(repo Repository) Service {
 }
 
 // ApplyCoupon applies a coupon to a basket
-func (s Service) ApplyCoupon(basket Basket, code string) (b *Basket, e error) {
+func (s Service) ApplyCoupon(basket entity.Basket, code string) (b *entity.Basket, e error) {
 	b = &basket
-	// fmt.Println("basket", b)
 	coupon, err := s.repo.FindByCode(code)
-	// fmt.Println("coupon", coupon)
 	if err != nil {
 		return nil, err
 	}
@@ -52,8 +49,8 @@ func (s Service) ApplyCoupon(basket Basket, code string) (b *Basket, e error) {
 }
 
 // CreateCoupon creates a new coupon
-func (s Service) CreateCoupon(discount int, code string, minBasketValue int) interface{} {
-	coupon := Coupon{
+func (s Service) CreateCoupon(discount int, code string, minBasketValue int) error {
+	coupon := entity.Coupon{
 		Discount:       discount,
 		Code:           code,
 		MinBasketValue: minBasketValue,
@@ -67,8 +64,8 @@ func (s Service) CreateCoupon(discount int, code string, minBasketValue int) int
 }
 
 // GetCoupons gets coupons by codes
-func (s Service) GetCoupons(codes []string) ([]Coupon, error) {
-	coupons := make([]Coupon, 0, len(codes))
+func (s Service) GetCoupons(codes []string) ([]entity.Coupon, error) {
+	coupons := make([]entity.Coupon, 0, len(codes))
 	var e error = nil
 
 	for idx, code := range codes {

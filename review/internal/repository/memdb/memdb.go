@@ -6,15 +6,10 @@ import (
 	"github.com/ctfrancia/go-code-review/review/internal/service/entity"
 )
 
-// Config is the configuration for memdb.
-type Config struct {
-	Host string
-	Port int
-}
-
 type repository interface {
 	FindByCode(string) (*entity.Coupon, error)
 	Save(entity.Coupon) error
+	Close() error
 }
 
 // Repository is the struct that holds the repository
@@ -46,6 +41,6 @@ func (r *Repository) Save(coupon entity.Coupon) error {
 
 // Close closes the database connection
 func (r *Repository) Close() error {
-	// immitate closing a database connection
+	// immitate graceful shutdown
 	return nil
 }
