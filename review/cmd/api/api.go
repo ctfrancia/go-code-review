@@ -39,12 +39,15 @@ func New(cfg Config, svc Service) API {
 	r := new(gin.Engine)
 	r = gin.New()
 	r.Use(gin.Recovery())
+	r.Use(gin.Logger())
+	r.ForwardedByClientIP = true
+	r.SetTrustedProxies([]string{"127.0.0.1"})
 
 	return API{
 		MUX: r,
 		CFG: cfg,
 		svc: svc,
-	}.withServer()
+	}.withServer().withRoutes()
 }
 
 func (a API) withServer() API {
@@ -65,6 +68,7 @@ func (a API) withRoutes() API {
 	apiGroup.POST("/apply", a.Apply)
 	apiGroup.POST("/create", a.Create)
 	apiGroup.GET("/coupons", a.Get)
+	a.MUX.Run(":8080")
 	return a
 }
 
@@ -73,6 +77,7 @@ func (a API) Start() {
 	if err := a.srv.ListenAndServe(); err != nil {
 		log.Fatal(err)
 	}
+	// a.withRoutes()
 }
 
 // Close closes http server.
