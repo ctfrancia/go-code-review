@@ -68,7 +68,8 @@ func (a API) withRoutes() API {
 	apiGroup.POST("/apply", a.Apply)
 	apiGroup.POST("/create", a.Create)
 	apiGroup.GET("/coupons", a.Get)
-	a.MUX.Run(":8080")
+	p := fmt.Sprintf(":%d", a.CFG.Port)
+	a.MUX.Run(p)
 	return a
 }
 
